@@ -9,6 +9,7 @@ import {
     NavigationMenuList,
 } from "@/components/ui/navigation-menu"
 import { Button } from "@/components/ui/button"
+import React from "react"
 import {
     Sheet,
     SheetContent,
@@ -17,6 +18,7 @@ import {
 import { Menu } from "lucide-react"
 
 export default function Navbar() {
+    const [open, setOpen] = React.useState(false);
     return (
         <header className="fixed top-0 z-50 w-full border-b bg-background/80 backdrop-blur">
             <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
@@ -28,19 +30,19 @@ export default function Navbar() {
                         <AvatarFallback>A</AvatarFallback>
                     </Avatar>
                     <Link href="/" className="text-xl  font-bold">
-                    
-                    Astitva
+
+                        Astitva
                     </Link>
                 </div>
-                
+
 
                 {/* Desktop Menu */}
                 <NavigationMenu className="hidden md:flex ">
                     <NavigationMenuList className="gap-6">
-                        {["About", "Projects", "Contact", "Blogs", "Skills"].map((item) => (
+                        {["Home", "Services", "Projects", "Contact", "Blogs", "Skills"].map((item) => (
                             <NavigationMenuItem key={item}>
                                 <NavigationMenuLink
-                                    href={`/${item.toLowerCase()}`}
+                                    href={item === "Home" ? "/" : `/${item.toLowerCase()}`}
                                     className="text-sm font-medium text-muted-foreground hover:text-foreground transition"
                                 >
                                     {item}
@@ -51,7 +53,9 @@ export default function Navbar() {
                 </NavigationMenu>
 
                 {/* Mobile Menu */}
-                <Sheet>
+                
+
+                <Sheet open={open} onOpenChange={setOpen}>
                     <SheetTrigger asChild>
                         <Button variant="ghost" size="icon" className="md:hidden">
                             <Menu className="h-5 w-5" />
@@ -59,11 +63,12 @@ export default function Navbar() {
                     </SheetTrigger>
                     <SheetContent side="right">
                         <nav className="mt-10 flex flex-col gap-6">
-                            {["About", "Projects", "Contact","Skills","Blogs"].map((item) => (
+                            {["Home", "Services", "Projects", "Contact", "Skills", "Blogs"].map((item) => (
                                 <Link
                                     key={item}
-                                    href={`/${item.toLowerCase()}`}
+                                    href={item === "Home" ? "/" : `/${item.toLowerCase()}`}
                                     className="text-lg font-medium pl-4"
+                                    onClick={() => setOpen(false)}
                                 >
                                     {item}
                                 </Link>
