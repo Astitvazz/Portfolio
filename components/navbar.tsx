@@ -40,7 +40,7 @@ export default function Navbar() {
                         {["About", "Projects", "Contact", "Blogs", "Skills"].map((item) => (
                             <NavigationMenuItem key={item}>
                                 <NavigationMenuLink
-                                    href={`#${item.toLowerCase()}`}
+                                    href={`/${item.toLowerCase()}`}
                                     className="text-sm font-medium text-muted-foreground hover:text-foreground transition"
                                 >
                                     {item}
@@ -59,11 +59,11 @@ export default function Navbar() {
                     </SheetTrigger>
                     <SheetContent side="right">
                         <nav className="mt-10 flex flex-col gap-6">
-                            {["About", "Projects", "Contact"].map((item) => (
+                            {["About", "Projects", "Contact","Skills","Blogs"].map((item) => (
                                 <Link
                                     key={item}
-                                    href={`#${item.toLowerCase()}`}
-                                    className="text-lg font-medium"
+                                    href={`/${item.toLowerCase()}`}
+                                    className="text-lg font-medium pl-4"
                                 >
                                     {item}
                                 </Link>

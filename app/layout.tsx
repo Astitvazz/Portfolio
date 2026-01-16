@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import Navbar from "@/components/navbar"
 import "./globals.css";
 import { Inter, Space_Grotesk } from "next/font/google"
+import Footer from "@/components/Footer";
+import { Github, Linkedin, Mail, Instagram, Twitter } from 'lucide-react';
+
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,6 +31,16 @@ export default function RootLayout({
       <body className="antialiased">
         <Navbar />
         {children}
+        <Footer 
+        name="Astitva"
+        email="hello@astitva.dev"
+        socialLinks={[
+          { name: 'GitHub', url: 'https://github.com/yourusername', icon: <Github size={18} /> },
+          { name: 'LinkedIn', url: 'https://linkedin.com/in/yourusername', icon: <Linkedin size={18} /> },
+          { name: 'Instagram', url: 'https://instagram.com/yourusername', icon: <Instagram size={18} /> },
+          { name: 'Twitter', url: 'https://twitter.com/yourusername', icon: <Twitter size={18} /> },
+        ]}
+      />
       </body>
     </html>
   );
