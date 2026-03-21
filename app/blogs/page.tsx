@@ -1,78 +1,124 @@
 'use client'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import BlogCard from '@/components/BlogCard';
 
-function page() {
-  const blogs = [
-    {
-      title: 'Building Scalable Web Applications with Next.js 14',
-      summary: 'Explore the latest features of Next.js 14 and learn how to build performant, scalable web applications with server components, streaming, and more.',
-      date: 'Jan 10, 2026',
-      readTime: '5 min read',
-      category: 'Web Development',
-      slug: 'nextjs-14-scalable-apps'
-    },
-    {
-      title: 'Mastering TypeScript: Advanced Patterns and Best Practices',
-      summary: 'Deep dive into advanced TypeScript patterns including generics, utility types, and design patterns that will level up your TypeScript development.',
-      date: 'Jan 8, 2026',
-      readTime: '8 min read',
-      category: 'TypeScript',
-      slug: 'mastering-typescript-patterns'
-    },
-    {
-      title: 'The Complete Guide to Tailwind CSS Architecture',
-      summary: 'Learn how to structure your Tailwind CSS projects for maintainability and scalability with custom utilities, plugins, and design system patterns.',
-      date: 'Jan 5, 2026',
-      readTime: '6 min read',
-      category: 'CSS',
-      slug: 'tailwind-css-architecture-guide'
-    },
-    {
-      title: 'Understanding React Server Components',
-      summary: 'A comprehensive guide to React Server Components, how they work under the hood, and when to use them in your Next.js applications.',
-      date: 'Dec 28, 2025',
-      readTime: '10 min read',
-      category: 'React',
-      slug: 'react-server-components-guide'
-    },
-    {
-      title: 'API Design Best Practices for Modern Web Apps',
-      summary: 'Essential principles and patterns for designing RESTful and GraphQL APIs that are secure, scalable, and developer-friendly.',
-      date: 'Dec 20, 2025',
-      readTime: '7 min read',
-      category: 'Backend',
-      slug: 'api-design-best-practices'
-    },
-    {
-      title: 'Optimizing Performance in React Applications',
-      summary: 'Practical techniques for improving React app performance including code splitting, lazy loading, memoization, and profiling.',
-      date: 'Dec 15, 2025',
-      readTime: '9 min read',
-      category: 'Performance',
-      slug: 'optimizing-react-performance'
-    }
-  ];
+interface Blog {
+  _id: string;
+  title: string;
+  content: string;
+  date: string;
+  readTime: string;
+  category: string;
+  slug: string;
+  image: {
+    url: string;
+    publicId: string;
+  };
+  createdAt: string;
+  updatedAt: string;
+}
+
+function Page() {
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/blogs');
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch blogs');
+        }
+        
+        const data = await response.json();
+        setBlogs(data);
+        setLoading(false);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred');
+        setLoading(false);
+      }
+    };
+
+    fetchBlogs();
+  }, []);
+
+  const generateSummary = (content: string): string => {
+    const plainText = content.replace(/[#*`]/g, '').trim();
+    return plainText.length > 150 
+      ? plainText.substring(0, 150) + '...' 
+      : plainText;
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-16 px-4 sm:px-6 lg:px-8 pt-24 flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mb-4"></div>
+          <p className="text-lg text-gray-600">Loading blogs...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-16 px-4 sm:px-6 lg:px-8 pt-24 flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-5xl mb-4">⚠️</div>
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">Error Loading Blogs</h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-6 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition-colors"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (blogs.length === 0) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-16 px-4 sm:px-6 lg:px-8 pt-24">
+        <div className="max-w-7xl mx-auto text-center">
+          <div className="text-6xl mb-4">📝</div>
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">No Blogs Yet</h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">Check back soon for new content!</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-gray-50 p-8 pt-24">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl font-bold text-gray-900 mb-8">Latest Blogs</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {blogs.map((blog, index) => (
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-16 px-4 sm:px-6 lg:px-8 pt-24">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">Latest Blogs</h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Discover insights and tutorials on web development.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {blogs.map((blog) => (
             <BlogCard
-              key={index}
+              key={blog._id}
               title={blog.title}
-              summary={blog.summary}
+              summary={generateSummary(blog.content)}
               date={blog.date}
               readTime={blog.readTime}
               category={blog.category}
               slug={blog.slug}
+              image={blog.image.url}
             />
           ))}
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default page
+export default Page;

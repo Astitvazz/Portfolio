@@ -21,7 +21,7 @@ const BlogCard: React.FC<BlogCardProps> = ({
 }) => {
   const handleClick = () => {
     // Navigate to blog post
-    window.location.href = `/blog/${slug}`;
+    window.location.href = `/blogs/${slug}`;
   };
 
   return (

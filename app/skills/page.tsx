@@ -11,12 +11,18 @@ function page() {
     { name: 'Python', icon: '🐍', proficiency: 75 },
     { name: 'MongoDB', icon: '🍃', proficiency: 70 },
   ];
+
   return (
-    <div className='min-h-screen flex justify-center items-center pt-24'>
-      <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl font-bold text-gray-900 mb-8">Skills</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-16 px-4 sm:px-6 lg:px-8 pt-24">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold text-gray-900 mb-4">Skills</h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Technologies and tools I use to bring ideas to life.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {skills.map((skill, index) => (
             <SkillCard
               key={index}
@@ -28,8 +34,7 @@ function page() {
         </div>
       </div>
     </div>
-    </div>
-  )
+  );
 }
 
-export default page
+export default page;

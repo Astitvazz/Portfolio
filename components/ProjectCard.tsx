@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 interface ProjectCardProps {
@@ -19,9 +18,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   githubUrl 
 }) => {
   return (
-    <div className="group bg-white rounded-xl overflow-hidden border border-gray-200 hover:border-gray-300 transition-all duration-300 hover:shadow-xl">
+    <div className="group bg-white rounded-xl overflow-hidden border border-gray-200 hover:border-gray-300 transition-all duration-300 hover:shadow-md">
       {/* Project Image */}
-      <div className="relative h-48 bg-gradient-to-br from-purple-100 to-pink-100 overflow-hidden">
+      <div className="relative h-48 bg-gray-50 overflow-hidden">
         {image ? (
           <img 
             src={image} 
@@ -37,7 +36,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
       {/* Content */}
       <div className="p-6">
-        <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-purple-600 transition-colors">
+        <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-gray-700 transition-colors">
           {title}
         </h3>
         <p className="text-gray-600 text-sm mb-4 line-clamp-2">
@@ -49,7 +48,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           {tags.map((tag, index) => (
             <span 
               key={index}
-              className="px-3 py-1 bg-gray-100 text-gray-700 text-xs rounded-full hover:bg-gray-200 transition-colors"
+              className="px-3 py-1 bg-gray-50 text-gray-700 text-xs rounded-full hover:bg-gray-100 transition-colors border border-gray-200"
             >
               {tag}
             </span>
@@ -63,7 +62,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               href={liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg hover:from-purple-600 hover:to-pink-600 transition-all duration-300 text-sm font-medium"
+              className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-all duration-300 text-sm font-medium"
             >
               <span>Live Demo</span>
               <span>↗</span>
@@ -85,4 +84,5 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     </div>
   );
 };
+
 export default ProjectCard

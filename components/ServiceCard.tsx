@@ -7,15 +7,15 @@ import { Code, Palette, Smartphone, Database, Globe, Zap } from 'lucide-react';
 
 const ServiceCard = ({ icon: Icon, title, description }: { icon: React.ElementType; title: string; description: string }) => {
   return (
-    <Card className="group hover:shadow-lg transition-all duration-300 border-gray-200 hover:border-gray-300 bg-white">
-      <CardHeader>
-        <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-          <Icon className="w-6 h-6 text-white" />
+    <Card className="group hover:shadow-md transition-all duration-300 border border-gray-200 hover:border-gray-300 bg-white rounded-xl">
+      <CardHeader className="pb-4">
+        <div className="w-14 h-14 rounded-full bg-gray-50 flex items-center justify-center mb-4 group-hover:bg-gray-100 transition-colors duration-300">
+          <Icon className="w-7 h-7 text-gray-700" />
         </div>
-        <CardTitle className="text-xl font-semibold text-gray-900">{title}</CardTitle>
+        <CardTitle className="text-lg font-semibold text-gray-900">{title}</CardTitle>
       </CardHeader>
-      <CardContent>
-        <CardDescription className="text-gray-600 leading-relaxed">
+      <CardContent className="pt-0">
+        <CardDescription className="text-gray-600 text-sm leading-relaxed">
           {description}
         </CardDescription>
       </CardContent>
