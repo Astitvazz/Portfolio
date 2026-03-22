@@ -11,7 +11,10 @@ interface FormData {
   category: string;
   slug: string;
 }
+const getToken = () =>
+  document.cookie.split('; ').find(r => r.startsWith('adminToken='))?.split('=')[1]
 
+const authHeaders = () => ({ Authorization: `Bearer ${getToken()}` })
 export default function BlogAdminPage() {
   const [formData, setFormData] = useState<FormData>({
     title: '',
@@ -122,9 +125,10 @@ export default function BlogAdminPage() {
     try {
       console.log('Submitting blog post...');
       const response = await fetch('http://localhost:5000/api/blogs', {
-        method: 'POST',
-        body: submitFormData,
-      });
+  method: 'POST',
+  headers: authHeaders(), // ✅ add this
+  body: submitFormData,
+});
 
       console.log('Response status:', response.status);
       const data = await response.json();

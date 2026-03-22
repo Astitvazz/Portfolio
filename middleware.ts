@@ -6,7 +6,7 @@ export async function middleware(request: NextRequest) {
   const token = request.cookies.get('adminToken')?.value;
 
   if (!token) {
-    return NextResponse.redirect(new URL('/admin/login', request.url));
+    return NextResponse.redirect(new URL('/admin/auth', request.url));
   }
 
   try {
@@ -14,10 +14,11 @@ export async function middleware(request: NextRequest) {
     await jwtVerify(token, secret);
     return NextResponse.next();
   } catch {
-    return NextResponse.redirect(new URL('/admin/login', request.url));
+    return NextResponse.redirect(new URL('/admin/auth', request.url));
   }
 }
 
-export const config = {
-  matcher: ['/admin/dashboard/:path*'], // protects dashboard, not login page
+
+  export const config = {
+  matcher: ['/admin/((?!auth).*)'], // protects ALL /admin/* except /admin/auth
 };

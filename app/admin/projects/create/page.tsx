@@ -14,6 +14,10 @@ interface FormData {
   order: string;
 }
 
+const getToken = () =>
+  document.cookie.split('; ').find(r => r.startsWith('adminToken='))?.split('=')[1]
+
+const authHeaders = () => ({ Authorization: `Bearer ${getToken()}` })
 export default function ProjectAdminPage() {
   const [formData, setFormData] = useState<FormData>({
     title: '',
@@ -73,11 +77,17 @@ export default function ProjectAdminPage() {
 
   const handleSubmit = async (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    const token = getToken()
+  if (!token) {
+    alert('Not authenticated. Please log in again.')
+    return
+  }
+
+  if (!selectedFile) {
+    alert('Please select an image');
+    return;
+  }
     
-    if (!selectedFile) {
-      alert('Please select an image');
-      return;
-    }
 
     setIsSubmitting(true);
 
@@ -95,6 +105,7 @@ export default function ProjectAdminPage() {
     try {
       const response = await fetch('http://localhost:5000/api/projects', {
         method: 'POST',
+        headers: authHeaders(),
         body: submitFormData,
       });
 
