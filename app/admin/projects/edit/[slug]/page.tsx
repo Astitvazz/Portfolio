@@ -2,6 +2,7 @@
 import React, { useState, useEffect, ChangeEvent } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { Send, Upload, X, Image, Link, Tag, Github, Globe, AlertCircle, CheckCircle, Star } from 'lucide-react'
+import { apiUrl } from '@/lib/api'
 
 const getToken = () =>
   document.cookie.split('; ').find(r => r.startsWith('adminToken='))?.split('=')[1]
@@ -38,7 +39,7 @@ export default function EditProjectPage() {
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/projects/${slug}`)
+        const res = await fetch(apiUrl(`/api/projects/${slug}`))
         if (!res.ok) throw new Error('Project not found')
         const data = await res.json()
         setFormData({
@@ -108,7 +109,7 @@ export default function EditProjectPage() {
     if (selectedFile) submitFormData.append('image', selectedFile)
 
     try {
-      const res = await fetch(`http://localhost:5000/api/projects/${slug}`, {
+      const res = await fetch(apiUrl(`/api/projects/${slug}`), {
         method: 'PUT',
         headers: authHeaders(),
         body: submitFormData,

@@ -2,6 +2,7 @@
 
 import React, { useState, ChangeEvent } from 'react';
 import { Send, Upload, X, Image, Calendar, Clock, Tag, Link, AlertCircle, CheckCircle } from 'lucide-react';
+import { API_BASE_URL, apiUrl } from '@/lib/api';
 
 interface FormData {
   title: string;
@@ -124,7 +125,7 @@ export default function BlogAdminPage() {
 
     try {
       console.log('Submitting blog post...');
-      const response = await fetch('http://localhost:5000/api/blogs', {
+      const response = await fetch(apiUrl('/api/blogs'), {
   method: 'POST',
   headers: authHeaders(), // ✅ add this
   body: submitFormData,
@@ -160,7 +161,7 @@ export default function BlogAdminPage() {
       }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      setError(`❌ Failed to connect to server: ${errorMessage}. Please check if the backend is running on http://localhost:5000`);
+      setError(`❌ Failed to connect to server: ${errorMessage}. Please check if the backend is running on ${API_BASE_URL}`);
       console.error('Fetch error:', error);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } finally {

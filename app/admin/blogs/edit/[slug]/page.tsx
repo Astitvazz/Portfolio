@@ -2,6 +2,7 @@
 import React, { useState, useEffect, ChangeEvent } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { Send, Upload, X, Image, Calendar, Clock, Tag, Link, AlertCircle, CheckCircle } from 'lucide-react'
+import { apiUrl } from '@/lib/api'
 
 const getToken = () =>
   document.cookie.split('; ').find(r => r.startsWith('adminToken='))?.split('=')[1]
@@ -36,7 +37,7 @@ export default function EditBlogPage() {
   useEffect(() => {
     const fetchBlog = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/blogs/${slug}`)
+        const res = await fetch(apiUrl(`/api/blogs/${slug}`))
         if (!res.ok) throw new Error('Blog not found')
         const data = await res.json()
         setFormData({
@@ -100,7 +101,7 @@ export default function EditBlogPage() {
     if (selectedFile) submitFormData.append('image', selectedFile)
 
     try {
-      const res = await fetch(`http://localhost:5000/api/blogs/${slug}`, {
+      const res = await fetch(apiUrl(`/api/blogs/${slug}`), {
         method: 'PUT',
         headers: authHeaders(),
         body: submitFormData,

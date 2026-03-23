@@ -1,6 +1,7 @@
 'use client'
 import React, { useState, useEffect } from 'react'
 import ProjectCard from '@/components/ProjectCard';
+import { apiUrl } from '@/lib/api';
 
 interface Project {
   _id: string;
@@ -25,7 +26,7 @@ function Page() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/projects');
+        const response = await fetch(apiUrl('/api/projects'));
         
         if (!response.ok) {
           throw new Error('Failed to fetch projects');

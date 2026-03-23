@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Github, Linkedin, Mail, Instagram, Twitter, Send, MapPin, Phone } from 'lucide-react';
+import { apiUrl } from '@/lib/api';
 
 const ContactPage = () => {
   const [formData, setFormData] = React.useState({
@@ -89,7 +90,7 @@ const ContactPage = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/contact', {
+      const response = await fetch(apiUrl('/api/contact'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

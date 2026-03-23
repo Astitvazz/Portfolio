@@ -5,6 +5,7 @@ import {
   Upload, X, Trash2, AlertCircle, CheckCircle,
   Loader2, Film, ImageIcon, ArrowLeft, Plus
 } from 'lucide-react'
+import { apiUrl } from '@/lib/api'
 
 const getToken = () =>
   document.cookie.split('; ').find(r => r.startsWith('adminToken='))?.split('=')[1]
@@ -46,7 +47,7 @@ export default function ProjectMediaPage() {
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/projects/${slug}`)
+        const res = await fetch(apiUrl(`/api/projects/${slug}`))
         if (!res.ok) throw new Error('Project not found')
         const data = await res.json()
         setProject(data)
@@ -101,7 +102,7 @@ export default function ProjectMediaPage() {
     selectedFiles.forEach(file => formData.append('media', file))
 
     try {
-      const res = await fetch(`http://localhost:5000/api/projects/${slug}/media`, {
+      const res = await fetch(apiUrl(`/api/projects/${slug}/media`), {
         method: 'POST',
         headers: authHeaders(),
         body: formData,
@@ -131,7 +132,7 @@ export default function ProjectMediaPage() {
     setDeletingId(publicId)
     try {
       const res = await fetch(
-        `http://localhost:5000/api/projects/${slug}/media/${encodeURIComponent(publicId)}`,
+        apiUrl(`/api/projects/${slug}/media/${encodeURIComponent(publicId)}`),
         { method: 'DELETE', headers: authHeaders() }
       )
 

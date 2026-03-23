@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { apiUrl } from "@/lib/api";
 
 interface Blog {
   title: string;
@@ -28,9 +29,7 @@ export default function BlogPost() {
 
     const fetchBlog = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:5000/api/blogs/${slug}`
-        );
+        const response = await fetch(apiUrl(`/api/blogs/${slug}`));
 
         if (!response.ok) {
           throw new Error("Blog not found");

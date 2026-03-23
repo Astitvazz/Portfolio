@@ -5,6 +5,7 @@ import {
   LogOut, Plus, Trash2, Pencil, FolderKanban, FileText,
   ExternalLink, Github, X, AlertCircle, CheckCircle, Loader2, Film
 } from 'lucide-react'
+import { apiUrl } from '@/lib/api'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -119,7 +120,7 @@ export default function DashboardPage() {
   const fetchBlogs = async () => {
     setLoadingBlogs(true)
     try {
-      const res = await fetch('http://localhost:5000/api/blogs')
+      const res = await fetch(apiUrl('/api/blogs'))
       const data = await res.json()
       setBlogs(data)
     } catch {
@@ -132,7 +133,7 @@ export default function DashboardPage() {
   const fetchProjects = async () => {
     setLoadingProjects(true)
     try {
-      const res = await fetch('http://localhost:5000/api/projects')
+      const res = await fetch(apiUrl('/api/projects'))
       const data = await res.json()
       setProjects(data)
     } catch {
@@ -154,7 +155,7 @@ export default function DashboardPage() {
     setConfirmDelete(null)
 
     try {
-      const res = await fetch(`http://localhost:5000/api/${type}/${slug}`, {
+      const res = await fetch(apiUrl(`/api/${type}/${slug}`), {
         method: 'DELETE',
         headers: authHeaders(),
       })

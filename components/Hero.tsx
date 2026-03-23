@@ -3,6 +3,7 @@
 import React, { useRef, useEffect, useState } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { apiUrl } from "@/lib/api"
 import { Button } from "./ui/button"
 import FeaturedProject from "./FeaturedProject"
 
@@ -55,7 +56,7 @@ export default function Hero() {
     const fetchFeaturedProject = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(`http://localhost:5000/api/projects/featured/project`);
+        const response = await fetch(apiUrl('/api/projects/featured/project'));
         
         if (!response.ok) {
           throw new Error('Failed to fetch featured project');

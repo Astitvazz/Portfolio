@@ -1,6 +1,7 @@
 'use client'
 import React, { useState, useEffect } from 'react'
 import BlogCard from '@/components/BlogCard';
+import { apiUrl } from '@/lib/api';
 
 interface Blog {
   _id: string;
@@ -26,7 +27,7 @@ function Page() {
   useEffect(() => {
     const fetchBlogs = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/blogs');
+        const response = await fetch(apiUrl('/api/blogs'));
         
         if (!response.ok) {
           throw new Error('Failed to fetch blogs');

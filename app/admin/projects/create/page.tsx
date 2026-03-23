@@ -2,6 +2,7 @@
 
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { Send, Upload, X, Image, Tag, Link, Globe, Github, Star, Hash } from 'lucide-react';
+import { apiUrl } from '@/lib/api';
 
 interface FormData {
   title: string;
@@ -103,7 +104,7 @@ export default function ProjectAdminPage() {
     submitFormData.append('image', selectedFile);
 
     try {
-      const response = await fetch('http://localhost:5000/api/projects', {
+      const response = await fetch(apiUrl('/api/projects'), {
         method: 'POST',
         headers: authHeaders(),
         body: submitFormData,
