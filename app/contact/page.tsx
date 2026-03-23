@@ -151,16 +151,16 @@ const ContactPage = () => {
   };
 
   const socialLinks = [
-    { name: 'GitHub', url: 'https://github.com/yourusername', icon: Github, color: 'hover:text-gray-900' },
-    { name: 'LinkedIn', url: 'https://linkedin.com/in/yourusername', icon: Linkedin, color: 'hover:text-blue-600' },
-    { name: 'Twitter', url: 'https://twitter.com/yourusername', icon: Twitter, color: 'hover:text-sky-500' },
+    { name: 'GitHub', url: 'https://github.com/Astitvazz', icon: Github, color: 'hover:text-gray-900' },
+    { name: 'LinkedIn', url: 'https://www.linkedin.com/in/astitva-sharma-012b4b252/', icon: Linkedin, color: 'hover:text-blue-600' },
+    { name: 'Twitter', url: 'https://x.com/astitvazz', icon: Twitter, color: 'hover:text-sky-500' },
     { name: 'Instagram', url: 'https://instagram.com/yourusername', icon: Instagram, color: 'hover:text-pink-600' },
   ];
 
   const contactInfo = [
-    { icon: Mail, label: 'Email', value: 'hello@astitva.dev', href: 'mailto:hello@astitva.dev' },
-    { icon: Phone, label: 'Phone', value: '+91 XXXXX XXXXX', href: 'tel:+91XXXXXXXXXX' },
-    { icon: MapPin, label: 'Location', value: 'Agra, Uttar Pradesh, India', href: null },
+    { icon: Mail, label: 'Email', value: 'astitvasharma58@gmail.com', href: 'mailto:astitvasharma58@gmail.com' },
+    { icon: Phone, label: 'Phone', value: '+91 8077842469', href: 'tel:+918077842469' },
+    { icon: MapPin, label: 'Location', value: 'New Delhi, India', href: null },
   ];
 
   return (
