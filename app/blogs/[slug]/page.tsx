@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { ArrowLeft, CalendarDays, Clock3, Sparkles } from "lucide-react";
 import { apiUrl } from "@/lib/api";
 
 interface Blog {
@@ -14,6 +15,62 @@ interface Blog {
     url: string;
   };
   slug: string;
+}
+
+function renderContent(content: string) {
+  return content
+    .split(/\n\s*\n/)
+    .map((block) => block.trim())
+    .filter(Boolean)
+    .map((block, index) => {
+      if (block.startsWith("### ")) {
+        return (
+          <h3 key={index} className="mt-10 text-xl font-semibold tracking-tight text-foreground">
+            {block.replace(/^###\s+/, "")}
+          </h3>
+        );
+      }
+
+      if (block.startsWith("## ")) {
+        return (
+          <h2 key={index} className="mt-12 text-2xl font-bold tracking-tight text-foreground">
+            {block.replace(/^##\s+/, "")}
+          </h2>
+        );
+      }
+
+      if (block.startsWith("# ")) {
+        return (
+          <h1 key={index} className="mt-12 text-3xl font-bold tracking-tight text-foreground">
+            {block.replace(/^#\s+/, "")}
+          </h1>
+        );
+      }
+
+      if (block.startsWith("- ")) {
+        const items = block
+          .split("\n")
+          .map((line) => line.replace(/^-\s+/, "").trim())
+          .filter(Boolean);
+
+        return (
+          <ul key={index} className="my-8 space-y-3 text-lg leading-8 text-muted-foreground">
+            {items.map((item, itemIndex) => (
+              <li key={itemIndex} className="flex gap-3">
+                <span className="mt-3 h-2 w-2 rounded-full bg-primary/70" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        );
+      }
+
+      return (
+        <p key={index} className="text-lg leading-8 text-muted-foreground">
+          {block}
+        </p>
+      );
+    });
 }
 
 export default function BlogPost() {
@@ -38,9 +95,7 @@ export default function BlogPost() {
         const data = await response.json();
         setBlog(data);
       } catch (err) {
-        setError(
-          err instanceof Error ? err.message : "Failed to load blog"
-        );
+        setError(err instanceof Error ? err.message : "Failed to load blog");
       } finally {
         setLoading(false);
       }
@@ -49,12 +104,17 @@ export default function BlogPost() {
     fetchBlog();
   }, [slug]);
 
+  const articleContent = useMemo(() => {
+    if (!blog?.content) return null;
+    return renderContent(blog.content);
+  }, [blog?.content]);
+
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-gray-600 font-medium">Loading article...</p>
+          <div className="h-12 w-12 rounded-full border-4 border-primary border-t-transparent animate-spin" />
+          <p className="font-medium text-muted-foreground">Loading article...</p>
         </div>
       </div>
     );
@@ -62,23 +122,21 @@ export default function BlogPost() {
 
   if (error || !blog) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 px-4">
-        <div className="text-center bg-white p-8 rounded-2xl shadow-lg max-w-md">
-          <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 px-4">
+        <div className="max-w-md rounded-[2rem] border border-border bg-card p-8 text-center shadow-[0_20px_70px_rgba(0,0,0,0.08)]">
+          <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-destructive/10 text-destructive">
+            <Sparkles className="h-7 w-7" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">Blog Not Found</h2>
-          <p className="text-gray-600 mb-6">The article you're looking for doesn't exist or has been removed.</p>
-          <button 
-            onClick={() => router.back()} 
-            className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+          <h2 className="mb-3 text-2xl font-bold text-foreground">Article unavailable</h2>
+          <p className="mb-6 text-muted-foreground">
+            The story you&apos;re looking for may have moved, been removed, or isn&apos;t published yet.
+          </p>
+          <button
+            onClick={() => router.push("/blogs")}
+            className="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-3 text-sm font-medium text-background transition hover:opacity-90"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-            Go Back
+            <ArrowLeft className="h-4 w-4" />
+            Back to blogs
           </button>
         </div>
       </div>
@@ -86,76 +144,86 @@ export default function BlogPost() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 pt-16">
-      {/* Fixed header with back button */}
-      <div className="bg-white border-b border-gray-200 fixed top-0 left-0 right-0 z-10 backdrop-blur-sm bg-white/95">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <button 
-            onClick={() => router.push('/blogs')} 
-            className="inline-flex items-center gap-2 text-gray-700 hover:text-blue-600 transition-colors font-medium"
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(99,102,241,0.14),_transparent_28%),linear-gradient(to_bottom,_rgba(248,250,252,0.98),_rgba(241,245,249,0.88))] pt-20 dark:bg-[radial-gradient(circle_at_top,_rgba(99,102,241,0.18),_transparent_24%),linear-gradient(to_bottom,_rgba(10,10,10,0.98),_rgba(18,18,18,0.94))]">
+      <div className="mx-auto max-w-6xl px-4 pb-20 sm:px-6 lg:px-8">
+        <div className="mb-8 flex">
+          <button
+            onClick={() => router.push("/blogs")}
+            className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/70 px-4 py-2 text-sm font-medium text-muted-foreground shadow-sm backdrop-blur transition hover:text-foreground"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-            </svg>
-            <span className="hidden sm:inline">Back to all blogs</span>
-            <span className="sm:hidden">Back</span>
+            <ArrowLeft className="h-4 w-4" />
+            Back to blogs
           </button>
         </div>
-      </div>
 
-      {/* Article container */}
-      <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        {/* Hero image */}
-        <div className="relative w-full aspect-video sm:aspect-[2/1] overflow-hidden rounded-t-3xl bg-gray-200">
-          <img
-            src={blog.image.url}
-            alt={blog.title}
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
-        </div>
-
-        {/* Content card */}
-        <div className="bg-white rounded-b-3xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-gray-100">
-          <div className="p-6 sm:p-10 lg:p-14">
-            {/* Category badge */}
-            <span className="inline-block px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs font-semibold rounded-full uppercase tracking-wide shadow-sm">
-              {blog.category}
-            </span>
-
-            {/* Title */}
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight mb-6 mt-4">
-              {blog.title}
-            </h1>
-
-            {/* Meta info */}
-            <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 pb-8 mb-8 border-b border-gray-100">
-              <div className="flex items-center gap-2">
-                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                <span>{blog.date}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span>{blog.readTime}</span>
+        <article className="overflow-hidden rounded-[2rem] border border-white/40 bg-background/80 shadow-[0_20px_80px_rgba(15,23,42,0.12)] backdrop-blur dark:border-white/8 dark:bg-card/80 dark:shadow-[0_24px_90px_rgba(0,0,0,0.35)]">
+          <div className="grid lg:grid-cols-[1.2fr_0.8fr]">
+            <div className="relative min-h-[320px] lg:min-h-[520px]">
+              <img
+                src={blog.image.url}
+                alt={blog.title}
+                className="h-full w-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-tr from-black/60 via-black/20 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8 lg:hidden">
+                <span className="inline-flex items-center rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-white/90 backdrop-blur">
+                  {blog.category}
+                </span>
+                <h1 className="mt-4 max-w-3xl text-3xl font-bold leading-tight text-white sm:text-4xl">
+                  {blog.title}
+                </h1>
               </div>
             </div>
 
-            {/* Article content */}
-            <div className="prose prose-lg max-w-none 
-              prose-headings:font-bold prose-headings:text-gray-900 
-              prose-p:text-gray-600 prose-p:leading-relaxed
-              prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline
-              prose-strong:text-gray-900 prose-strong:font-semibold
-              prose-img:rounded-2xl prose-img:shadow-md">
-              {blog.content}
+            <div className="flex flex-col justify-between p-6 sm:p-8 lg:p-10">
+              <div className="hidden lg:block">
+                <span className="inline-flex items-center rounded-full border border-primary/15 bg-primary/8 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-primary">
+                  {blog.category}
+                </span>
+                <h1 className="mt-5 text-4xl font-bold leading-tight text-foreground xl:text-5xl">
+                  {blog.title}
+                </h1>
+                <p className="mt-5 max-w-xl text-base leading-7 text-muted-foreground">
+                  A focused read on {blog.category.toLowerCase()} with practical notes, ideas, and details worth slowing down for.
+                </p>
+              </div>
+
+              <div className="mt-8 grid gap-4 sm:grid-cols-2">
+                <div className="rounded-2xl border border-border/70 bg-background/70 p-4 backdrop-blur">
+                  <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+                    <CalendarDays className="h-5 w-5" />
+                  </div>
+                  <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Published</p>
+                  <p className="mt-2 text-base font-semibold text-foreground">{blog.date}</p>
+                </div>
+
+                <div className="rounded-2xl border border-border/70 bg-background/70 p-4 backdrop-blur">
+                  <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+                    <Clock3 className="h-5 w-5" />
+                  </div>
+                  <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Read Time</p>
+                  <p className="mt-2 text-base font-semibold text-foreground">{blog.readTime}</p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </article>
+
+          <div className="border-t border-border/70 px-6 py-10 sm:px-8 lg:px-14 lg:py-14">
+            <div className="mx-auto max-w-3xl space-y-6">
+              <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary">
+                  <Sparkles className="h-4 w-4" />
+                </span>
+                <span>Settle in. This one is designed for a slower read.</span>
+              </div>
+
+              <div className="space-y-6">
+                {articleContent}
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
     </div>
   );
 }
