@@ -118,6 +118,10 @@
     @apply border-border outline-ring/50;
   }
   
+  html {
+    @apply scroll-smooth;
+  }
+
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-space), system-ui, sans-serif;
@@ -128,3 +132,93 @@
   }
 }
 
+@layer base {
+  body,
+  div,
+  section,
+  article,
+  header,
+  footer,
+  nav,
+  main,
+  aside,
+  button,
+  a,
+  input,
+  textarea,
+  select {
+    transition:
+      background-color 200ms ease,
+      border-color 200ms ease,
+      color 200ms ease,
+      box-shadow 200ms ease;
+  }
+}
+
+@layer utilities {
+  .dark .bg-white {
+    background-color: color-mix(in oklab, var(--color-card) 94%, black 6%) !important;
+  }
+
+  .dark .bg-white\/80,
+  .dark .bg-white\/90,
+  .dark .bg-white\/95 {
+    background-color: color-mix(in oklab, var(--color-card) 88%, transparent) !important;
+  }
+
+  .dark .bg-gray-50 {
+    background-color: color-mix(in oklab, var(--color-background) 92%, white 8%) !important;
+  }
+
+  .dark .bg-gray-100 {
+    background-color: color-mix(in oklab, var(--color-muted) 88%, white 12%) !important;
+  }
+
+  .dark .bg-gray-900:not(.text-white) {
+    background-color: color-mix(in oklab, var(--color-foreground) 92%, black 8%) !important;
+  }
+
+  .dark .text-gray-900 {
+    color: var(--color-foreground) !important;
+  }
+
+  .dark .text-gray-800,
+  .dark .text-gray-700 {
+    color: color-mix(in oklab, var(--color-foreground) 86%, white 14%) !important;
+  }
+
+  .dark .text-gray-600,
+  .dark .text-gray-500,
+  .dark .text-gray-400 {
+    color: var(--color-muted-foreground) !important;
+  }
+
+  .dark .border-gray-100,
+  .dark .border-gray-200,
+  .dark .border-gray-300 {
+    border-color: var(--color-border) !important;
+  }
+
+  .dark .hover\:bg-gray-50:hover,
+  .dark .hover\:bg-gray-100:hover {
+    background-color: color-mix(in oklab, var(--color-accent) 92%, white 8%) !important;
+  }
+
+  .dark .hover\:text-gray-900:hover,
+  .dark .hover\:text-gray-700:hover,
+  .dark .hover\:text-gray-600:hover {
+    color: var(--color-foreground) !important;
+  }
+
+  .dark .from-gray-50,
+  .dark .to-white,
+  .dark .from-gray-50.to-white,
+  .dark .from-gray-50.via-white,
+  .dark .via-white,
+  .dark .bg-gradient-to-b,
+  .dark .bg-gradient-to-br {
+    --tw-gradient-from: color-mix(in oklab, var(--color-background) 95%, white 5%) var(--tw-gradient-from-position) !important;
+    --tw-gradient-to: color-mix(in oklab, var(--color-background) 88%, black 12%) var(--tw-gradient-to-position) !important;
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-from), var(--tw-gradient-to)) !important;
+  }
+}

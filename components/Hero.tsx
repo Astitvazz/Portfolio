@@ -1,7 +1,8 @@
 "use client"
 
+import Link from "next/link"
 import React, { useRef, useEffect, useState } from "react"
-import { motion, useScroll, useTransform } from "framer-motion"
+import { motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { apiUrl } from "@/lib/api"
 import { Button } from "./ui/button"
@@ -38,6 +39,7 @@ export default function Hero() {
   const [featuredProject, setFeaturedProject] = useState<Project | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [showFeatured, setShowFeatured] = useState(false);
   
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -51,6 +53,10 @@ export default function Hero() {
 
   const descOpacity = useTransform(scrollYProgress, [0.3, 0.6], [0, 1])
   const descY = useTransform(scrollYProgress, [0.3, 0.6], [40, 0])
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    setShowFeatured(latest >= 0.35)
+  })
 
   useEffect(() => {
     const fetchFeaturedProject = async () => {
@@ -104,7 +110,9 @@ export default function Hero() {
         {/* Hero Introduction */}
         <motion.div
           style={{ opacity: heroOpacity, y: heroY }}
-          className="absolute inset-0 flex items-center justify-center px-4 pt-16 md:pt-0"
+          className={`absolute inset-0 flex items-center justify-center px-4 pt-16 md:pt-0 ${
+            showFeatured ? "pointer-events-none" : "pointer-events-auto"
+          }`}
         >
           <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12 w-full max-w-5xl">
             <div className="w-full md:w-1/2 space-y-4">
@@ -117,7 +125,9 @@ export default function Hero() {
                 about code quality and user-centric design.
               </p>
               <div className="flex gap-3 pt-2">
-                <Button>View Blogs</Button>
+                <Button asChild>
+                  <Link href="/blogs">View Blogs</Link>
+                </Button>
                 <Button variant="outline">Resume</Button>
               </div>
             </div>
@@ -134,7 +144,9 @@ export default function Hero() {
         {/* Featured Project */}
         <motion.div
           style={{ opacity: descOpacity, y: descY }}
-          className="absolute inset-0 flex items-center justify-center px-4 pt-16 md:pt-0"
+          className={`absolute inset-0 flex items-center justify-center px-4 pt-16 md:pt-0 ${
+            showFeatured ? "pointer-events-auto" : "pointer-events-none"
+          }`}
         >
           {isLoading && (
             <div className="flex items-center justify-center">
