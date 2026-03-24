@@ -57,9 +57,7 @@ export default function Navbar() {
                 
 
                 <div className="flex items-center gap-2">
-                    <div className="hidden md:block">
-                        <ThemeToggle />
-                    </div>
+                    <ThemeToggle />
 
                     <Sheet open={open} onOpenChange={setOpen}>
                         <SheetTrigger asChild>
@@ -68,9 +66,6 @@ export default function Navbar() {
                             </Button>
                         </SheetTrigger>
                         <SheetContent side="right">
-                            <div className="flex justify-end">
-                                <ThemeToggle />
-                            </div>
                             <nav className="mt-10 flex flex-col gap-6">
                                 {["Home", "Services", "Projects", "Contact", "Skills", "Blogs"].map((item) => (
                                     <Link
