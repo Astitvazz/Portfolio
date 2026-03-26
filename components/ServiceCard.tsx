@@ -1,26 +1,32 @@
 import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Code, Palette, Smartphone, Database, Globe, Zap } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-
-
-
-const ServiceCard = ({ icon: Icon, title, description }: { icon: React.ElementType; title: string; description: string }) => {
+const ServiceCard = ({
+  icon: Icon,
+  title,
+  description
+}: {
+  icon: React.ElementType;
+  title: string;
+  description: string;
+}) => {
   return (
-    <Card className="group hover:shadow-md transition-all duration-300 border border-gray-200 hover:border-gray-300 bg-white rounded-xl">
-      <CardHeader className="pb-4">
-        <div className="w-14 h-14 rounded-full bg-gray-50 flex items-center justify-center mb-4 group-hover:bg-gray-100 transition-colors duration-300">
-          <Icon className="w-7 h-7 text-gray-700" />
+    <Card className="group rounded-[1.75rem] border border-border/70 bg-background/80 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+      <CardHeader className="space-y-5 pb-4">
+        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
+          <Icon className="h-6 w-6" />
         </div>
-        <CardTitle className="text-lg font-semibold text-gray-900">{title}</CardTitle>
+        <CardTitle className="font-[family:var(--font-display)] text-xl font-semibold tracking-tight text-foreground">
+          {title}
+        </CardTitle>
       </CardHeader>
       <CardContent className="pt-0">
-        <CardDescription className="text-gray-600 text-sm leading-relaxed">
+        <p className="text-sm leading-7 text-muted-foreground">
           {description}
-        </CardDescription>
+        </p>
       </CardContent>
     </Card>
   );
 };
 
-export default ServiceCard
+export default ServiceCard;

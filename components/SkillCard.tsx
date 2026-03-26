@@ -8,19 +8,21 @@ interface SkillCardProps {
 
 const SkillCard: React.FC<SkillCardProps> = ({ name, icon, proficiency }) => {
   return (
-    <div className="group relative bg-white rounded-xl p-6 border border-gray-200 hover:border-gray-300 transition-all duration-300 hover:shadow-md">
+    <div className="group rounded-[1.5rem] border border-border/70 bg-background/80 p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
       <div className="flex items-center gap-4">
         {icon && (
-          <div className="flex-shrink-0 w-12 h-12 rounded-full bg-gray-50 flex items-center justify-center text-gray-700 text-xl group-hover:bg-gray-100 transition-colors duration-300">
+          <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-sm font-semibold text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
             {icon}
           </div>
         )}
         <div className="flex-1">
-          <h3 className="text-lg font-semibold text-gray-900">{name}</h3>
+          <h3 className="font-[family:var(--font-display)] text-lg font-semibold tracking-tight text-foreground">
+            {name}
+          </h3>
           {proficiency && (
-            <div className="mt-2 w-full bg-gray-100 rounded-full h-1.5">
-              <div 
-                className="bg-gray-700 h-1.5 rounded-full transition-all duration-500"
+            <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-muted">
+              <div
+                className="h-2 rounded-full bg-primary transition-all duration-500"
                 style={{ width: `${proficiency}%` }}
               />
             </div>
@@ -31,4 +33,4 @@ const SkillCard: React.FC<SkillCardProps> = ({ name, icon, proficiency }) => {
   );
 };
 
-export default SkillCard
+export default SkillCard;

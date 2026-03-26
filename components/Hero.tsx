@@ -1,12 +1,12 @@
 "use client"
 
 import Link from "next/link"
-import React, { useRef, useEffect, useState } from "react"
-import { motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion"
+import React, { useEffect, useState } from "react"
+import { ArrowRight, Sparkles } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { apiUrl } from "@/lib/api"
 import { Button } from "./ui/button"
 import FeaturedProject from "./FeaturedProject"
+import { apiUrl } from "@/lib/api"
 
 interface Media {
   type: 'image' | 'video';
@@ -35,61 +35,48 @@ interface Project {
   updatedAt: string;
 }
 
+const proofStats = [
+  { value: "Node", label: "Backend-first engineering mindset" },
+  { value: "AI", label: "RAG, vector search, and applied ML" },
+  { value: "Scale", label: "System design and production thinking" },
+]
+
 export default function Hero() {
-  const [featuredProject, setFeaturedProject] = useState<Project | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [showFeatured, setShowFeatured] = useState(false);
-  
-  const containerRef = useRef<HTMLDivElement>(null)
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  })
-
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0])
-  const heroY = useTransform(scrollYProgress, [0, 0.3], [0, -40])
-
-  const descOpacity = useTransform(scrollYProgress, [0.3, 0.6], [0, 1])
-  const descY = useTransform(scrollYProgress, [0.3, 0.6], [40, 0])
-
-  useMotionValueEvent(scrollYProgress, "change", (latest) => {
-    setShowFeatured(latest >= 0.35)
-  })
+  const [featuredProject, setFeaturedProject] = useState<Project | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchFeaturedProject = async () => {
       try {
-        setIsLoading(true);
-        const response = await fetch(apiUrl('/api/projects/featured/project'));
-        
+        setIsLoading(true)
+        const response = await fetch(apiUrl('/api/projects/featured/project'))
+
         if (!response.ok) {
-          throw new Error('Failed to fetch featured project');
+          throw new Error('Failed to fetch featured project')
         }
-        
-        const data = await response.json();
-        setFeaturedProject(data);
+
+        const data = await response.json()
+        setFeaturedProject(data)
       } catch (err) {
-        console.error('Error fetching featured project:', err);
-        setError(err instanceof Error ? err.message : 'An error occurred');
+        console.error('Error fetching featured project:', err)
+        setError(err instanceof Error ? err.message : 'An error occurred')
       } finally {
-        setIsLoading(false);
+        setIsLoading(false)
       }
-    };
+    }
 
-    fetchFeaturedProject();
-  }, []);
+    fetchFeaturedProject()
+  }, [])
 
-  // Transform project data for FeaturedProject component
   const transformedProject = featuredProject ? {
     title: featuredProject.title,
     description: featuredProject.description,
     techStack: featuredProject.tags,
-    media: featuredProject.media.length > 0 
+    media: featuredProject.media.length > 0
       ? featuredProject.media
           .sort((a, b) => a.order - b.order)
-          .map(m => ({
+          .map((m) => ({
             type: m.type,
             src: m.url,
             alt: m.alt || featuredProject.title
@@ -101,85 +88,135 @@ export default function Hero() {
         }],
     liveUrl: featuredProject.liveUrl,
     githubUrl: featuredProject.githubUrl
-  } : null;
+  } : null
 
   return (
-    <section ref={containerRef} className="h-[200vh]">
-      <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden pt-16 md:pt-0">
-        
-        {/* Hero Introduction */}
-        <motion.div
-          style={{ opacity: heroOpacity, y: heroY }}
-          className={`absolute inset-0 flex items-center justify-center px-4 pt-16 md:pt-0 ${
-            showFeatured ? "pointer-events-none" : "pointer-events-auto"
-          }`}
-        >
-          <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12 w-full max-w-5xl">
-            <div className="w-full md:w-1/2 space-y-4">
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold">
-                Hi, I'm Astitva
-              </h1>
-              <p className="text-base md:text-xl text-muted-foreground leading-relaxed">
-                I'm a full-stack developer who enjoys building scalable systems,
-                clean UI, and thoughtful digital experiences. I care deeply
-                about code quality and user-centric design.
-              </p>
-              <div className="flex gap-3 pt-2">
-                <Button asChild>
-                  <Link href="/blogs">View Blogs</Link>
-                </Button>
-                <Button variant="outline">Resume</Button>
-              </div>
+    <section className="relative overflow-hidden px-4 pb-20 pt-28 sm:px-6 lg:px-8">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(99,102,241,0.18),_transparent_28%),radial-gradient(circle_at_80%_20%,_rgba(16,185,129,0.12),_transparent_26%)]" />
+
+      <div className="relative mx-auto max-w-7xl space-y-20">
+        <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_0.85fr]">
+          <div className="space-y-8">
+            <div className="inline-flex items-center gap-2 rounded-full border border-primary/15 bg-primary/8 px-4 py-2 text-xs font-semibold uppercase tracking-[0.26em] text-primary">
+              <Sparkles className="h-3.5 w-3.5" />
+              Backend engineer based in India
             </div>
-            
-            <div className="shrink-0">
-              <Avatar className="h-48 w-48 md:h-64 md:w-64">
-                <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>A</AvatarFallback>
-              </Avatar>
+
+            <div className="space-y-6">
+              <h1 className="max-w-4xl font-[family:var(--font-display)] text-5xl font-semibold leading-[0.98] tracking-tight text-foreground sm:text-6xl lg:text-7xl xl:text-[5.6rem]">
+                Building reliable backend systems with product, AI, and scale in mind.
+              </h1>
+              <p className="max-w-2xl text-lg leading-8 text-muted-foreground sm:text-xl">
+                I work primarily with Node.js and Express to build APIs, services, and system-level foundations,
+                while staying comfortable with React and Next.js when a project needs full-stack ownership.
+                I also build AI systems with RAG pipelines, vector databases, fine-tuning workflows, and Python-based data analysis.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-4">
+              <Button asChild size="lg" className="rounded-full px-7">
+                <Link href="/projects">
+                  View Projects
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
+              <Button asChild size="lg" variant="outline" className="rounded-full px-7">
+                <Link href="/blogs">Read Blogs</Link>
+              </Button>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-3">
+              {proofStats.map((stat) => (
+                <div
+                  key={stat.label}
+                  className="rounded-3xl border border-border/70 bg-background/70 p-5 shadow-sm backdrop-blur"
+                >
+                  <p className="font-[family:var(--font-display)] text-3xl font-semibold text-foreground">
+                    {stat.value}
+                  </p>
+                  <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                    {stat.label}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
-        </motion.div>
 
-        {/* Featured Project */}
-        <motion.div
-          style={{ opacity: descOpacity, y: descY }}
-          className={`absolute inset-0 flex items-center justify-center px-4 pt-16 md:pt-0 ${
-            showFeatured ? "pointer-events-auto" : "pointer-events-none"
-          }`}
-        >
+          <div className="relative">
+            <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-primary/20 via-transparent to-emerald-400/15 blur-3xl" />
+            <div className="relative overflow-hidden rounded-[2rem] border border-white/50 bg-background/80 p-6 shadow-[0_25px_100px_rgba(15,23,42,0.12)] backdrop-blur dark:border-white/10 dark:bg-card/80 dark:shadow-[0_24px_90px_rgba(0,0,0,0.35)]">
+              <div className="flex items-center justify-between">
+                <div className="space-y-1">
+                  <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary/80">
+                    Profile Snapshot
+                  </p>
+                  <p className="text-sm text-muted-foreground">Backend, AI, systems, and full-stack execution</p>
+                </div>
+                <Avatar className="h-16 w-16 ring-4 ring-primary/10">
+                  <AvatarImage src="https://github.com/shadcn.png" />
+                  <AvatarFallback>A</AvatarFallback>
+                </Avatar>
+              </div>
+
+              <div className="mt-8 grid gap-4">
+                <div className="rounded-2xl bg-muted/60 p-5">
+                  <p className="text-sm text-muted-foreground">Current focus</p>
+                  <p className="mt-2 text-lg font-semibold text-foreground">
+                    Backend architecture, AI engineering, and data-driven product systems.
+                  </p>
+                </div>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="rounded-2xl border border-border/70 p-5">
+                    <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground">Stack</p>
+                    <p className="mt-3 text-base font-medium text-foreground">Node.js, Express, Python, Next.js, MongoDB</p>
+                  </div>
+                  <div className="rounded-2xl border border-border/70 p-5">
+                    <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground">Approach</p>
+                    <p className="mt-3 text-base font-medium text-foreground">Systems thinking with practical product execution</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-8">
+          <div className="max-w-3xl space-y-4">
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-primary/80">
+              Featured project
+            </p>
+            <h2 className="font-[family:var(--font-display)] text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+              A closer look at the kind of systems-backed product work I enjoy shipping.
+            </h2>
+            <p className="text-lg leading-8 text-muted-foreground">
+              Not just a UI showcase. The goal is to show how architecture, engineering, and product thinking come together in real builds.
+            </p>
+          </div>
+
           {isLoading && (
-            <div className="flex items-center justify-center">
-              <div className="animate-pulse space-y-4 w-full max-w-6xl">
-                <div className="h-8 bg-gray-200 rounded w-1/3"></div>
-                <div className="h-4 bg-gray-200 rounded w-2/3"></div>
-                <div className="h-64 bg-gray-200 rounded"></div>
-              </div>
+            <div className="w-full max-w-6xl animate-pulse space-y-4">
+              <div className="h-8 w-1/3 rounded bg-gray-200" />
+              <div className="h-4 w-2/3 rounded bg-gray-200" />
+              <div className="h-64 rounded bg-gray-200" />
             </div>
           )}
-          
+
           {error && (
-            <div className="flex items-center justify-center">
-              <div className="text-center space-y-2">
-                <p className="text-red-500">Failed to load featured project</p>
-                <p className="text-sm text-muted-foreground">{error}</p>
-              </div>
+            <div className="rounded-[2rem] border border-border/70 bg-background/80 p-8 text-center shadow-sm">
+              <p className="text-red-500">Failed to load featured project</p>
+              <p className="mt-2 text-sm text-muted-foreground">{error}</p>
             </div>
           )}
-          
+
           {!isLoading && !error && transformedProject && (
             <FeaturedProject {...transformedProject} />
           )}
-          
-          {!isLoading && !error && !transformedProject && (
-            <div className="flex items-center justify-center">
-              <p className="text-muted-foreground">No featured project available</p>
-            </div>
-          )}
-        </motion.div>
 
+          {!isLoading && !error && !transformedProject && (
+            <p className="text-muted-foreground">No featured project available</p>
+          )}
+        </div>
       </div>
     </section>
   )
 }
-//eytx fisc nxhx dvhi
