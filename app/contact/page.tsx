@@ -165,7 +165,7 @@ const ContactPage = () => {
   ];
 
   return (
-    <div className="min-h-screen py-28 px-4 sm:px-6 lg:px-8">
+    <div className="page-aura min-h-screen py-28 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         
         {/* Header */}

@@ -23,7 +23,7 @@ const highlights = [
 
 export default function Page() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white px-4 pb-20 pt-28 sm:px-6 lg:px-8">
+    <div className="page-aura min-h-screen px-4 pb-20 pt-28 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl space-y-14">
         <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
           <div className="space-y-6">

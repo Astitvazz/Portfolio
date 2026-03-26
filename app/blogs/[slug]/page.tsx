@@ -111,7 +111,7 @@ export default function BlogPost() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
+      <div className="page-aura flex min-h-screen items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="h-12 w-12 rounded-full border-4 border-primary border-t-transparent animate-spin" />
           <p className="font-medium text-muted-foreground">Loading article...</p>
@@ -122,7 +122,7 @@ export default function BlogPost() {
 
   if (error || !blog) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 px-4">
+      <div className="page-aura flex min-h-screen items-center justify-center px-4">
         <div className="max-w-md rounded-[2rem] border border-border bg-card p-8 text-center shadow-[0_20px_70px_rgba(0,0,0,0.08)]">
           <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-destructive/10 text-destructive">
             <Sparkles className="h-7 w-7" />
@@ -144,7 +144,7 @@ export default function BlogPost() {
   }
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(99,102,241,0.14),_transparent_28%),linear-gradient(to_bottom,_rgba(248,250,252,0.98),_rgba(241,245,249,0.88))] pt-20 dark:bg-[radial-gradient(circle_at_top,_rgba(99,102,241,0.18),_transparent_24%),linear-gradient(to_bottom,_rgba(10,10,10,0.98),_rgba(18,18,18,0.94))]">
+    <div className="page-aura min-h-screen pt-20">
       <div className="mx-auto max-w-6xl px-4 pb-20 sm:px-6 lg:px-8">
         <div className="mb-8 flex">
           <button

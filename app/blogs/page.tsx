@@ -54,7 +54,7 @@ function Page() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-16 px-4 sm:px-6 lg:px-8 pt-24 flex items-center justify-center">
+      <div className="page-aura min-h-screen py-16 px-4 sm:px-6 lg:px-8 pt-24 flex items-center justify-center">
         <div className="text-center">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mb-4"></div>
           <p className="text-lg text-gray-600">Loading blogs...</p>
@@ -65,7 +65,7 @@ function Page() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-16 px-4 sm:px-6 lg:px-8 pt-24 flex items-center justify-center">
+      <div className="page-aura min-h-screen py-16 px-4 sm:px-6 lg:px-8 pt-24 flex items-center justify-center">
         <div className="text-center">
           <div className="text-5xl mb-4">⚠️</div>
           <h2 className="text-4xl font-bold text-gray-900 mb-4">Error Loading Blogs</h2>
@@ -83,7 +83,7 @@ function Page() {
 
   if (blogs.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-16 px-4 sm:px-6 lg:px-8 pt-24">
+      <div className="page-aura min-h-screen py-16 px-4 sm:px-6 lg:px-8 pt-24">
         <div className="max-w-7xl mx-auto text-center">
           <div className="text-6xl mb-4">📝</div>
           <h2 className="text-4xl font-bold text-gray-900 mb-4">No Blogs Yet</h2>
@@ -94,7 +94,7 @@ function Page() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-16 px-4 sm:px-6 lg:px-8 pt-24">
+    <div className="page-aura min-h-screen py-16 px-4 sm:px-6 lg:px-8 pt-24">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-900 mb-4">Latest Blogs</h2>

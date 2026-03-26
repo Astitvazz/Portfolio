@@ -37,7 +37,7 @@ const services = [
 
 function page() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white px-4 pb-20 pt-28 sm:px-6 lg:px-8">
+    <div className="page-aura min-h-screen px-4 pb-20 pt-28 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl space-y-12">
         <div className="max-w-3xl space-y-5">
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-primary/80">Services</p>
