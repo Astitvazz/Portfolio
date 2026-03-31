@@ -229,38 +229,19 @@ export default function BlogPost() {
         </div>
 
         <article className="overflow-hidden rounded-[2rem] border border-white/40 bg-background/80 shadow-[0_20px_80px_rgba(15,23,42,0.12)] backdrop-blur dark:border-white/8 dark:bg-card/80 dark:shadow-[0_24px_90px_rgba(0,0,0,0.35)]">
-          <div className="grid lg:grid-cols-[1.2fr_0.8fr]">
-            <div className="relative min-h-[320px] lg:min-h-[520px]">
-              <img
-                src={blog.image.url}
-                alt={blog.title}
-                className="h-full w-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-tr from-black/60 via-black/20 to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8 lg:hidden">
-                <span className="inline-flex items-center rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-white/90 backdrop-blur">
-                  {blog.category}
-                </span>
-                <h1 className="mt-4 max-w-3xl text-3xl font-bold leading-tight text-white sm:text-4xl">
-                  {blog.title}
-                </h1>
-              </div>
-            </div>
+          <div className="border-b border-border/70 px-6 py-10 sm:px-8 lg:px-14 lg:py-14">
+            <div className="mx-auto max-w-4xl">
+              <span className="inline-flex items-center rounded-full border border-primary/15 bg-primary/8 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-primary">
+                {blog.category}
+              </span>
+              <h1 className="mt-5 max-w-3xl text-4xl font-bold leading-tight text-foreground sm:text-5xl lg:text-6xl">
+                {blog.title}
+              </h1>
+              <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
+                A focused read on {blog.category.toLowerCase()} with practical notes, ideas, and details worth slowing down for.
+              </p>
 
-            <div className="flex flex-col justify-between p-6 sm:p-8 lg:p-10">
-              <div className="hidden lg:block">
-                <span className="inline-flex items-center rounded-full border border-primary/15 bg-primary/8 px-3 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-primary">
-                  {blog.category}
-                </span>
-                <h1 className="mt-5 text-4xl font-bold leading-tight text-foreground xl:text-5xl">
-                  {blog.title}
-                </h1>
-                <p className="mt-5 max-w-xl text-base leading-7 text-muted-foreground">
-                  A focused read on {blog.category.toLowerCase()} with practical notes, ideas, and details worth slowing down for.
-                </p>
-              </div>
-
-              <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:max-w-xl">
                 <div className="rounded-2xl border border-border/70 bg-background/70 p-4 backdrop-blur">
                   <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary">
                     <CalendarDays className="h-5 w-5" />
@@ -280,7 +261,7 @@ export default function BlogPost() {
             </div>
           </div>
 
-          <div className="border-t border-border/70 px-6 py-10 sm:px-8 lg:px-14 lg:py-14">
+          <div className="px-6 py-10 sm:px-8 lg:px-14 lg:py-14">
             <div className="mx-auto max-w-3xl space-y-6">
               <div className="flex items-center gap-3 text-sm text-muted-foreground">
                 <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary">
