@@ -3,6 +3,7 @@
 import React, { useState, ChangeEvent } from 'react';
 import { Send, Upload, X, Image, Calendar, Clock, Tag, Link, AlertCircle, CheckCircle } from 'lucide-react';
 import { API_BASE_URL, apiUrl } from '@/lib/api';
+import BlogEditor from '@/components/BlogEditor';
 
 interface FormData {
   title: string;
@@ -250,14 +251,10 @@ export default function BlogAdminPage() {
                   <label htmlFor="content" className="block text-sm font-medium text-gray-900 mb-2">
                     Content *
                   </label>
-                  <textarea
-                    id="content"
-                    name="content"
+                  <BlogEditor
                     value={formData.content}
-                    onChange={handleInputChange}
+                    onChange={(value) => setFormData(prev => ({ ...prev, content: value }))}
                     placeholder="Write your blog post..."
-                    rows={8}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all resize-none"
                   />
                 </div>
 

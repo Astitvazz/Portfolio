@@ -3,6 +3,7 @@ import React, { useState, useEffect, ChangeEvent } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { Send, Upload, X, Image, Calendar, Clock, Tag, Link, AlertCircle, CheckCircle } from 'lucide-react'
 import { apiUrl } from '@/lib/api'
+import BlogEditor from '@/components/BlogEditor'
 
 const getToken = () =>
   document.cookie.split('; ').find(r => r.startsWith('adminToken='))?.split('=')[1]
@@ -189,9 +190,11 @@ export default function EditBlogPage() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-900 mb-2">Content *</label>
-                  <textarea name="content" value={formData.content} onChange={handleInputChange}
-                    placeholder="Write your blog post..." rows={8}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none transition-all resize-none" />
+                  <BlogEditor
+                    value={formData.content}
+                    onChange={(value) => setFormData(prev => ({ ...prev, content: value }))}
+                    placeholder="Write your blog post..."
+                  />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

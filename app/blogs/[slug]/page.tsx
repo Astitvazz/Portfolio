@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { ArrowLeft, CalendarDays, Clock3, Sparkles } from "lucide-react";
@@ -17,6 +18,57 @@ interface Blog {
   slug: string;
 }
 
+function renderInlineMarkdown(text: string): ReactNode[] {
+  const segments: ReactNode[] = [];
+  const inlinePattern = /(\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)|\*\*([^*]+)\*\*|\*([^*]+)\*)/g;
+  let lastIndex = 0;
+  let matchIndex = 0;
+
+  for (const match of text.matchAll(inlinePattern)) {
+    const fullMatch = match[0];
+    const matchStart = match.index ?? 0;
+
+    if (matchStart > lastIndex) {
+      segments.push(text.slice(lastIndex, matchStart));
+    }
+
+    if (match[2] && match[3]) {
+      segments.push(
+        <a
+          key={`link-${matchIndex}`}
+          href={match[3]}
+          target="_blank"
+          rel="noreferrer"
+          className="font-medium text-primary underline decoration-primary/40 underline-offset-4 transition hover:decoration-primary"
+        >
+          {match[2]}
+        </a>
+      );
+    } else if (match[4]) {
+      segments.push(
+        <strong key={`bold-${matchIndex}`} className="font-semibold text-foreground">
+          {match[4]}
+        </strong>
+      );
+    } else if (match[5]) {
+      segments.push(
+        <em key={`italic-${matchIndex}`} className="font-medium italic text-foreground/90">
+          {match[5]}
+        </em>
+      );
+    }
+
+    lastIndex = matchStart + fullMatch.length;
+    matchIndex += 1;
+  }
+
+  if (lastIndex < text.length) {
+    segments.push(text.slice(lastIndex));
+  }
+
+  return segments.length ? segments : [text];
+}
+
 function renderContent(content: string) {
   return content
     .split(/\n\s*\n/)
@@ -26,7 +78,7 @@ function renderContent(content: string) {
       if (block.startsWith("### ")) {
         return (
           <h3 key={index} className="mt-10 text-xl font-semibold tracking-tight text-foreground">
-            {block.replace(/^###\s+/, "")}
+            {renderInlineMarkdown(block.replace(/^###\s+/, ""))}
           </h3>
         );
       }
@@ -34,7 +86,7 @@ function renderContent(content: string) {
       if (block.startsWith("## ")) {
         return (
           <h2 key={index} className="mt-12 text-2xl font-bold tracking-tight text-foreground">
-            {block.replace(/^##\s+/, "")}
+            {renderInlineMarkdown(block.replace(/^##\s+/, ""))}
           </h2>
         );
       }
@@ -42,8 +94,28 @@ function renderContent(content: string) {
       if (block.startsWith("# ")) {
         return (
           <h1 key={index} className="mt-12 text-3xl font-bold tracking-tight text-foreground">
-            {block.replace(/^#\s+/, "")}
+            {renderInlineMarkdown(block.replace(/^#\s+/, ""))}
           </h1>
+        );
+      }
+
+      if (block.startsWith("> ")) {
+        const quoteLines = block
+          .split("\n")
+          .map((line) => line.replace(/^>\s?/, "").trim())
+          .filter(Boolean);
+
+        return (
+          <blockquote
+            key={index}
+            className="my-8 rounded-[1.5rem] border border-primary/15 bg-primary/5 px-5 py-5 text-lg leading-8 text-foreground shadow-sm"
+          >
+            <div className="space-y-3">
+              {quoteLines.map((line, lineIndex) => (
+                <p key={lineIndex}>{renderInlineMarkdown(line)}</p>
+              ))}
+            </div>
+          </blockquote>
         );
       }
 
@@ -58,7 +130,7 @@ function renderContent(content: string) {
             {items.map((item, itemIndex) => (
               <li key={itemIndex} className="flex gap-3">
                 <span className="mt-3 h-2 w-2 rounded-full bg-primary/70" />
-                <span>{item}</span>
+                <span>{renderInlineMarkdown(item)}</span>
               </li>
             ))}
           </ul>
@@ -67,7 +139,7 @@ function renderContent(content: string) {
 
       return (
         <p key={index} className="text-lg leading-8 text-muted-foreground">
-          {block}
+          {renderInlineMarkdown(block)}
         </p>
       );
     });
