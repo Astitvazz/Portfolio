@@ -1,6 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowRight, BrainCircuit, Code2, Layers3, Sparkles } from "lucide-react";
 import Hero from "@/components/Hero";
+import MotionReveal from "@/components/MotionReveal";
+import { MotionStagger, MotionStaggerItem } from "@/components/MotionStagger";
 import ServiceCard from "@/components/ServiceCard";
 import SkillCard from "@/components/SkillCard";
 import { Button } from "@/components/ui/button";
@@ -37,7 +41,7 @@ export default function Home() {
 
       <section className="px-4 pb-24 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl space-y-24">
-          <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+          <MotionReveal className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
             <div className="space-y-5">
               <p className="text-xs font-semibold uppercase tracking-[0.28em] text-primary/80">
                 Core profile
@@ -58,9 +62,9 @@ export default function Home() {
                 </div>
               ))}
             </div>
-          </div>
+          </MotionReveal>
 
-          <div className="space-y-8">
+          <MotionReveal className="space-y-8" delay={0.05}>
             <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
               <div className="max-w-2xl space-y-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.28em] text-primary/80">Capabilities</p>
@@ -75,41 +79,49 @@ export default function Home() {
                 </Link>
               </Button>
             </div>
-            <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            <MotionStagger className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
               {serviceHighlights.map((service) => (
-                <ServiceCard
-                  key={service.title}
-                  icon={service.icon}
-                  title={service.title}
-                  description={service.description}
-                />
+                <MotionStaggerItem key={service.title}>
+                  <ServiceCard
+                    icon={service.icon}
+                    title={service.title}
+                    description={service.description}
+                  />
+                </MotionStaggerItem>
               ))}
-            </div>
-          </div>
+            </MotionStagger>
+          </MotionReveal>
 
-          <div className="grid gap-10 rounded-[2rem] border border-border/70 bg-gradient-to-br from-background to-muted/40 p-8 shadow-sm lg:grid-cols-[1fr_1fr] lg:p-10">
+          <MotionReveal
+            className="grid gap-10 rounded-[2rem] border border-border/70 bg-gradient-to-br from-background to-muted/40 p-8 shadow-sm lg:grid-cols-[1fr_1fr] lg:p-10"
+            delay={0.08}
+          >
             <div className="space-y-5">
               <p className="text-xs font-semibold uppercase tracking-[0.28em] text-primary/80">Core stack</p>
               <h2 className="font-[family:var(--font-display)] text-4xl font-semibold tracking-tight text-foreground">
                 A toolkit shaped around backend systems, AI workflows, and practical full-stack delivery.
               </h2>
               <p className="max-w-xl text-lg leading-8 text-muted-foreground">
-                I’m strongest on the backend, but I can move across the stack when needed, which means fewer handoff gaps and more cohesive product delivery.
+                I&apos;m strongest on the backend, but I can move across the stack when needed, which means fewer handoff gaps and more cohesive product delivery.
               </p>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2">
+            <MotionStagger className="grid gap-4 sm:grid-cols-2" delay={0.12}>
               {skillPreview.map((skill) => (
-                <SkillCard
-                  key={skill.name}
-                  name={skill.name}
-                  icon={skill.icon}
-                  proficiency={skill.proficiency}
-                />
+                <MotionStaggerItem key={skill.name}>
+                  <SkillCard
+                    name={skill.name}
+                    icon={skill.icon}
+                    proficiency={skill.proficiency}
+                  />
+                </MotionStaggerItem>
               ))}
-            </div>
-          </div>
+            </MotionStagger>
+          </MotionReveal>
 
-          <div className="rounded-[2rem] border border-border/70 bg-foreground px-8 py-10 text-background shadow-[0_18px_70px_rgba(15,23,42,0.18)]">
+          <MotionReveal
+            className="rounded-[2rem] border border-border/70 bg-foreground px-8 py-10 text-background shadow-[0_18px_70px_rgba(15,23,42,0.18)]"
+            delay={0.05}
+          >
             <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
               <div className="max-w-2xl space-y-4">
                 <p className="text-xs font-semibold uppercase tracking-[0.28em] text-background/70">Let&apos;s build something stronger</p>
@@ -129,7 +141,7 @@ export default function Home() {
                 </Button>
               </div>
             </div>
-          </div>
+          </MotionReveal>
         </div>
       </section>
     </div>

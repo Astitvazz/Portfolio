@@ -1,4 +1,7 @@
+"use client";
+
 import React from 'react';
+import { motion } from 'framer-motion';
 
 interface SkillCardProps {
   name: string;
@@ -8,7 +11,14 @@ interface SkillCardProps {
 
 const SkillCard: React.FC<SkillCardProps> = ({ name, icon, proficiency }) => {
   return (
-    <div className="group rounded-[1.5rem] border border-border/70 bg-background/80 p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+    <motion.div
+      initial={{ opacity: 0, y: 24, filter: "blur(10px)" }}
+      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      whileHover={{ y: -6 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+      className="group rounded-[1.5rem] border border-border/70 bg-background/80 p-5 shadow-sm transition-all duration-300 hover:shadow-lg"
+    >
       <div className="flex items-center gap-4">
         {icon && (
           <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-sm font-semibold text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
@@ -21,15 +31,18 @@ const SkillCard: React.FC<SkillCardProps> = ({ name, icon, proficiency }) => {
           </h3>
           {proficiency && (
             <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-muted">
-              <div
+              <motion.div
                 className="h-2 rounded-full bg-primary transition-all duration-500"
-                style={{ width: `${proficiency}%` }}
+                initial={{ width: 0 }}
+                whileInView={{ width: `${proficiency}%` }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{ duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
               />
             </div>
           )}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

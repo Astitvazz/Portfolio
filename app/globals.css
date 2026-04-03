@@ -157,6 +157,32 @@
 }
 
 @layer utilities {
+  @keyframes float-slow {
+    0%, 100% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(0, -18px, 0);
+    }
+  }
+
+  @keyframes float-delayed {
+    0%, 100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(0, 18px, 0) scale(1.04);
+    }
+  }
+
+  .animate-float-slow {
+    animation: float-slow 8s ease-in-out infinite;
+  }
+
+  .animate-float-delayed {
+    animation: float-delayed 10s ease-in-out infinite;
+  }
+
   .page-aura {
     background:
       radial-gradient(circle at top left, rgba(99, 102, 241, 0.26), transparent 30%),

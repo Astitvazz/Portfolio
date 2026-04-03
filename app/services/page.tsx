@@ -1,5 +1,9 @@
+"use client";
+
 import React from 'react'
 import { BrainCircuit, Database, Network, ServerCog, Workflow, ChartNoAxesCombined } from 'lucide-react';
+import MotionReveal from '@/components/MotionReveal';
+import { MotionStagger, MotionStaggerItem } from '@/components/MotionStagger';
 import ServiceCard from '@/components/ServiceCard';
 
 const services = [
@@ -39,7 +43,7 @@ function page() {
   return (
     <div className="page-aura min-h-screen px-4 pb-20 pt-28 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl space-y-12">
-        <div className="max-w-3xl space-y-5">
+        <MotionReveal className="max-w-3xl space-y-5">
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-primary/80">Services</p>
           <h1 className="font-[family:var(--font-display)] text-5xl font-semibold tracking-tight text-foreground sm:text-6xl">
             Backend systems, AI workflows, and full-stack delivery where it actually matters.
@@ -47,18 +51,19 @@ function page() {
           <p className="text-lg leading-8 text-muted-foreground">
             I help build the technical backbone of products: APIs, services, architecture, AI features, and data-driven workflows that support real users and real scale.
           </p>
-        </div>
+        </MotionReveal>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <MotionStagger className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3" delay={0.1}>
           {services.map((service) => (
-            <ServiceCard
-              key={service.title}
-              icon={service.icon}
-              title={service.title}
-              description={service.description}
-            />
+            <MotionStaggerItem key={service.title}>
+              <ServiceCard
+                icon={service.icon}
+                title={service.title}
+                description={service.description}
+              />
+            </MotionStaggerItem>
           ))}
-        </div>
+        </MotionStagger>
       </div>
     </div>
   )

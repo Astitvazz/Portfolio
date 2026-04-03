@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
@@ -34,7 +35,13 @@ const FeaturedProject = ({
       <div className="grid lg:grid-cols-2 gap-8 items-center">
         
         {/* Left Side - Project Info */}
-        <div className="space-y-6">
+        <motion.div
+          initial={{ opacity: 0, x: -30, filter: "blur(8px)" }}
+          whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="space-y-6"
+        >
           <div>
             <div className="inline-block mb-3">
               <Badge variant="secondary" className="text-sm px-3 py-1">
@@ -68,24 +75,32 @@ const FeaturedProject = ({
 
           {/* Action Buttons */}
           <div className="flex gap-3 pt-2">
-            <Button asChild>
+            <Button asChild className="transition-transform hover:-translate-y-0.5">
               <a href={liveUrl} target="_blank" rel="noopener noreferrer">
                 <ExternalLink className="w-4 h-4 mr-2" />
                 Live Demo
               </a>
             </Button>
-            <Button asChild variant="outline">
+            <Button asChild variant="outline" className="transition-transform hover:-translate-y-0.5">
               <a href={githubUrl} target="_blank" rel="noopener noreferrer">
                 <Github className="w-4 h-4 mr-2" />
                 View Code
               </a>
             </Button>
           </div>
-        </div>
+        </motion.div>
 
         {/* Right Side - Media Showcase */}
-        <div className="relative">
-          <div className="relative rounded-xl overflow-hidden shadow-lg border">
+        <motion.div
+          initial={{ opacity: 0, x: 30, scale: 0.98, filter: "blur(10px)" }}
+          whileInView={{ opacity: 1, x: 0, scale: 1, filter: "blur(0px)" }}
+          whileHover={{ y: -6 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+          className="relative"
+        >
+          <div className="relative overflow-hidden rounded-xl border shadow-lg">
+            <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_top_left,_rgba(99,102,241,0.12),_transparent_32%),radial-gradient(circle_at_bottom_right,_rgba(16,185,129,0.12),_transparent_28%)]" />
             <Carousel className="w-full" opts={{ loop: true }}>
               <CarouselContent>
                 {media.map((item, index) => (
@@ -131,7 +146,7 @@ const FeaturedProject = ({
               ))}
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

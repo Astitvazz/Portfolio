@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import React from "react"
+import { motion } from "framer-motion"
 import { Menu } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
@@ -24,7 +25,12 @@ export default function Navbar() {
     const [open, setOpen] = React.useState(false)
 
     return (
-        <header className="fixed top-0 z-50 w-full border-b border-border/60 bg-background/75 backdrop-blur-xl">
+        <motion.header
+            initial={{ opacity: 0, y: -18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+            className="fixed top-0 z-50 w-full border-b border-border/60 bg-background/75 backdrop-blur-xl"
+        >
             <div className="mx-auto flex h-18 max-w-7xl items-center justify-between px-4 sm:px-6">
                 <div className="flex items-center gap-3">
                     <Avatar className="h-10 w-10 ring-2 ring-primary/10">
@@ -82,6 +88,6 @@ export default function Navbar() {
                     </Sheet>
                 </div>
             </div>
-        </header>
+        </motion.header>
     )
 }

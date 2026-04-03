@@ -1,5 +1,7 @@
 'use client'
 import React from 'react'
+import MotionReveal from '@/components/MotionReveal';
+import { MotionStagger, MotionStaggerItem } from '@/components/MotionStagger';
 import SkillCard from '@/components/SkillCard';
 
 function page() {
@@ -15,7 +17,7 @@ function page() {
   return (
     <div className="page-aura min-h-screen px-4 pb-20 pt-28 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl space-y-12">
-        <div className="max-w-3xl space-y-5">
+        <MotionReveal className="max-w-3xl space-y-5">
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-primary/80">Skills</p>
           <h1 className="font-[family:var(--font-display)] text-5xl font-semibold tracking-tight text-foreground sm:text-6xl">
             A toolkit centered on backend systems, AI workflows, and analytical depth.
@@ -23,18 +25,19 @@ function page() {
           <p className="text-lg leading-8 text-muted-foreground">
             These are the technologies and domains I rely on most when designing backend systems, building intelligent applications, and working with data.
           </p>
-        </div>
+        </MotionReveal>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <MotionStagger className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3" delay={0.1}>
           {skills.map((skill) => (
-            <SkillCard
-              key={skill.name}
-              name={skill.name}
-              icon={skill.icon}
-              proficiency={skill.proficiency}
-            />
+            <MotionStaggerItem key={skill.name}>
+              <SkillCard
+                name={skill.name}
+                icon={skill.icon}
+                proficiency={skill.proficiency}
+              />
+            </MotionStaggerItem>
           ))}
-        </div>
+        </MotionStagger>
       </div>
     </div>
   );
