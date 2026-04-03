@@ -36,8 +36,8 @@ const FeaturedProject = ({
         
         {/* Left Side - Project Info */}
         <motion.div
-          initial={{ opacity: 0, x: -30, filter: "blur(8px)" }}
-          whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           className="space-y-6"
@@ -92,8 +92,8 @@ const FeaturedProject = ({
 
         {/* Right Side - Media Showcase */}
         <motion.div
-          initial={{ opacity: 0, x: 30, scale: 0.98, filter: "blur(10px)" }}
-          whileInView={{ opacity: 1, x: 0, scale: 1, filter: "blur(0px)" }}
+          initial={{ opacity: 0, x: 30, scale: 0.98 }}
+          whileInView={{ opacity: 1, x: 0, scale: 1 }}
           whileHover={{ y: -6 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}

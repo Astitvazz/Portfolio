@@ -8,7 +8,6 @@ type MotionRevealProps = {
   className?: string;
   delay?: number;
   y?: number;
-  blur?: boolean;
 };
 
 export default function MotionReveal({
@@ -16,13 +15,12 @@ export default function MotionReveal({
   className,
   delay = 0,
   y = 28,
-  blur = false,
 }: MotionRevealProps) {
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y, filter: blur ? "blur(10px)" : "blur(0px)" }}
-      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      initial={{ opacity: 0, y }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
     >

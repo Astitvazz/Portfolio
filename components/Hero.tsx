@@ -160,7 +160,7 @@ export default function Hero() {
             </MotionStagger>
           </MotionStagger>
 
-          <MotionReveal className="relative" delay={0.2} y={36} blur>
+          <MotionReveal className="relative" delay={0.2} y={36}>
             <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-primary/20 via-transparent to-emerald-400/15 blur-3xl" />
             <motion.div
               animate={{ y: [0, -8, 0] }}
